@@ -8,12 +8,6 @@ const Table = () => {
 
   const keysForSearching = ['first_name', 'last_name', 'email'];
 
-  const search = () => {
-    return Users.filter(user =>
-      keysForSearching.some(key =>
-        user[key].toLowerCase().includes(query)
-      ))
-  }
 
   return (
     <div>
@@ -40,9 +34,7 @@ const Table = () => {
           </tr>
 
           {
-            // .slice(0, 20)
-
-            Users.filter(user =>
+            Users.slice(0, 70).filter(user =>
               keysForSearching.some(key =>
                 user[key].toLowerCase().includes(query)
               )).map(user => (
