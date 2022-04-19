@@ -1,14 +1,26 @@
 import Head from 'next/head'
 import { useState } from 'react'
+import Pagination from '../components/Pagination';
 import { Users } from '../constants/userDB';
 
 const Table = () => {
 
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState('');
+  const [data, setData] = useState(Users);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [dataPerPage] = useState(10);
 
   const keysForSearching = ['first_name', 'last_name', 'email'];
 
-  console.log("Table")
+  const indexOfLastData = currentPage * dataPerPage;
+  const indexOfFirstData = indexOfLastData - dataPerPage;
+  const currentData = data.slice(indexOfFirstData, indexOfLastData);
+
+  const pageNumberClick = (number) => {
+    setCurrentPage(number);
+  }
+
+
 
   return (
     <div>
@@ -35,23 +47,47 @@ const Table = () => {
           </tr>
 
           {
-            Users.slice(0, 70).filter(user =>
-              keysForSearching.some(key =>
-                user[key].toLowerCase().includes(query)
-              )).map(user => (
+            !query
+              ? currentData.filter(user =>
+                keysForSearching.some(key =>
+                  user[key].toLowerCase().includes(query)
+                )).map(user => (
 
-                <tr key={user.id}>
+                  <tr key={user.id}>
 
-                  <td>{user.id}</td>
-                  <td>{user.first_name}</td>
-                  <td>{user.last_name}</td>
-                  <td>{user.email}</td>
+                    <td>{user.id}</td>
+                    <td>{user.first_name}</td>
+                    <td>{user.last_name}</td>
+                    <td>{user.email}</td>
 
-                </tr>
-              ))
+                  </tr>
+                ))
+              : data.filter(user =>
+                keysForSearching.some(key =>
+                  user[key].toLowerCase().includes(query)
+                )).map(user => (
+
+                  <tr key={user.id}>
+
+                    <td>{user.id}</td>
+                    <td>{user.first_name}</td>
+                    <td>{user.last_name}</td>
+                    <td>{user.email}</td>
+
+                  </tr>
+                ))
           }
         </tbody>
       </table>
+
+      <div >
+        <div >
+          <Pagination
+            totalData={data.length}
+            dataPerPage={dataPerPage}
+            pageNumberClick={pageNumberClick} />
+        </div>
+      </div>
     </div>
   )
 }
