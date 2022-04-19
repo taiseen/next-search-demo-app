@@ -8,6 +8,7 @@ const Table = () => {
 
   const keysForSearching = ['first_name', 'last_name', 'email'];
 
+  console.log("Table")
 
   return (
     <div>

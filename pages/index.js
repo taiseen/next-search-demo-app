@@ -5,6 +5,7 @@ import { Users } from '../constants/userDB';
 
 export default function Home() {
 
+  
   const [query, setQuery] = useState('')
 
 
@@ -16,7 +17,6 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      
 
       <input
         type="text"
@@ -25,9 +25,9 @@ export default function Home() {
         onChange={e => setQuery(e.target.value.toLowerCase())}
       />
 
+
       <div className='dataContainer'>
         {
-          // .slice(0, 20)
           Users.filter(user => user.first_name.toLowerCase().includes(query))
             .map(user => (
               <div key={user.id} className="userInfo">
@@ -36,8 +36,6 @@ export default function Home() {
             ))
         }
       </div>
-
-
     </div>
   )
 }

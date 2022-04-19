@@ -4,14 +4,13 @@ import { useState, useEffect } from 'react'
 
 const Server = () => {
 
-  const [data, setData] = useState([])
   const [query, setQuery] = useState('')
+  const [data, setData] = useState([])
 
-  const keysForSearching = ['first_name', 'last_name', 'email'];
 
   const fetchData = async () => {
     // const url = 'http://localhost:3000/api/user'
-    const url = '/api/user'
+    const url = `/api/user?searching=${query}`;
     const response = await fetch(url);
     const data = await response.json();
     setData(data);
@@ -19,9 +18,7 @@ const Server = () => {
 
   useEffect(() => {
     fetchData();
-
-  }, [])
-
+  }, [query])
 
 
   return (
@@ -50,20 +47,17 @@ const Server = () => {
           </tr>
 
           {
-            data.filter(user =>
-              keysForSearching.some(key =>
-                user[key].toLowerCase().includes(query)
-              )).map(user => (
+            data.map(user => (
 
-                <tr key={user.id}>
+              <tr key={user.id}>
 
-                  <td>{user.id}</td>
-                  <td>{user.first_name}</td>
-                  <td>{user.last_name}</td>
-                  <td>{user.email}</td>
+                <td>{user.id}</td>
+                <td>{user.first_name}</td>
+                <td>{user.last_name}</td>
+                <td>{user.email}</td>
 
-                </tr>
-              ))
+              </tr>
+            ))
           }
         </tbody>
       </table>
